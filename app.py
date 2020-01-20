@@ -16,5 +16,5 @@ class Serv(BaseHTTPRequestHandler):                     #Declare class that hand
         self.wfile.write(bytes(file_to_open, 'utf-8'))  #Write contents of file to screen (utf-8 encoding)
 
 
-httpd = HTTPServer(('localhost', 8080), Serv)
+httpd = HTTPServer((int(os.environ.get('PORT', 5000))), Serv)
 httpd.serve_forever()
