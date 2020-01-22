@@ -1,6 +1,6 @@
 import os
-from flask import Flask, render_template
-app = Flask(__name__)
+from flask import Flask, render_template, request
+app = Flask(__name__, static_url_path='')
 
 @app.route("/")
 def hello():
