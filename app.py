@@ -1,11 +1,25 @@
 import os
-from flask import Flask
-app = Flask(__name__)
+from http.server import HTTPServer, BaseHTTPRequestHandler #Built into the python HTTP library, handles the HTTP requests
 
-@app.route("/")
-def hello():
-    return "Hello from Python, prof Ruben!" 
 
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port)
+class Serv(BaseHTTPRequestHandler):                     #Declare class that handles the serving of the content
+
+    port = int(os.environ.get("PORT", 5000))            #Declare port variable
+
+    print(port)
+
+    def do_GET(self):
+        if self.path == '/':                            #Check path, if it's /, index page
+            self.path = '/app.html'
+        try:
+            file_to_open = open(self.path[1:]).read()   #Try to open app.html
+            self.send_response(200)                     #reply success code
+        except:
+            file_to_open = "File not found"             #Error opening file
+            self.send_response(404)                     #reply file not found code
+        self.end_headers()
+        self.wfile.write(bytes(file_to_open, 'utf-8'))  #Write contents of file to screen (utf-8 encoding)
+
+
+httpd = HTTPServer((port), Serv)
+httpd.serve_forever()
