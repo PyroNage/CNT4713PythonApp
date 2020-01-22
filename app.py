@@ -5,6 +5,8 @@ class Serv(BaseHTTPRequestHandler):                     #Declare class that hand
 
     port = int(os.environ.get('PORT', 5000))            #Declare port variable
 
+    print(port)
+
     def do_GET(self):
         if self.path == '/':                            #Check path, if it's /, index page
             self.path = '/app.html'
