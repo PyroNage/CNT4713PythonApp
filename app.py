@@ -4,10 +4,6 @@ from http.server import HTTPServer, BaseHTTPRequestHandler #Built into the pytho
 
 class Serv(BaseHTTPRequestHandler):                     #Declare class that handles the serving of the content
 
-    port = int(os.environ.get("PORT", 5000))            #Declare port variable
-
-    print(port)
-
     def do_GET(self):
         if self.path == '/':                            #Check path, if it's /, index page
             self.path = '/app.html'
@@ -21,5 +17,5 @@ class Serv(BaseHTTPRequestHandler):                     #Declare class that hand
         self.wfile.write(bytes(file_to_open, 'utf-8'))  #Write contents of file to screen (utf-8 encoding)
 
 
-httpd = HTTPServer((port), Serv)
+httpd = HTTPServer((int(os.environ.get("PORT", 5000))), Serv)
 httpd.serve_forever()
